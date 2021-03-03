@@ -12,12 +12,11 @@ namespace Programming.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Languages
+    public partial class Users
     {
-        public int ID { get; set; }
-        public string Language { get; set; }
-        public string Founder { get; set; }
-        public System.DateTime Year { get; set; }
-        public bool IsPopular { get; set; }
+        public int UserId { get; set; }
+        public Nullable<System.Guid> UserKey { get; set; }
+        public string Name { get; set; }
+        public string Role { get; set; }
     }
 }

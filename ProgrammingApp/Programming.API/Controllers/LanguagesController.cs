@@ -73,7 +73,7 @@ namespace Programming.API.Controllers
             else 
             {
                 languagesDAL.DeleteLanguage(id);
-                return Ok();
+                return StatusCode(HttpStatusCode.NoContent);
             }
         }
     }

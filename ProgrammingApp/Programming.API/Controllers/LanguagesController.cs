@@ -5,67 +5,75 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace Programming.API.Controllers
 {
     public class LanguagesController : ApiController
     {
         LanguagesDAL languagesDAL = new LanguagesDAL();
-        public HttpResponseMessage Get()
+        [ResponseType(typeof(IEnumerable<Languages>))]
+        public IHttpActionResult Get()
         {
             var languages= languagesDAL.GetAllLanguages();
-            return Request.CreateResponse(HttpStatusCode.OK, languages);
+            return Ok(languages);
         }
 
-        public HttpResponseMessage Get(int id)
+        [ResponseType(typeof(Languages))]
+        public IHttpActionResult Get(int id)
         {
             var language= languagesDAL.GetAllLanguageById(id);
             if (language==null)
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound, "No such a record found (Böyle bir kayıt bulunamadı).");
+                return NotFound();
             }
-            return Request.CreateResponse(HttpStatusCode.OK, language);
+            return Ok(language);
 
         }
-        public HttpResponseMessage Post(Languages language)
+
+        [ResponseType(typeof(Languages))]
+        public IHttpActionResult Post(Languages language)
         {
             if (ModelState.IsValid)
             {
                 var createdLanguage = languagesDAL.CreateLanguage(language);
-                return Request.CreateResponse(HttpStatusCode.Created, createdLanguage);
+                return CreatedAtRoute("DefaultApi", new { id = createdLanguage.ID }, createdLanguage);//First and Second parameters using from App_Start/WebApiConfig.cs (Route name and template).
             }
             else
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                return BadRequest(ModelState);
             }
             
         }
-        public HttpResponseMessage Put(int id, Languages language)
+
+        [ResponseType(typeof(Languages))]
+        public IHttpActionResult Put(int id, Languages language)
         {
             
             if (!languagesDAL.IsThereAnyLanguage(id)) //1- FirstOfAll, If the record for the id value does not exist in DB
             {
-                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "No records found for id param (id parametresine ait kayıt bulunamadı).");
+                return NotFound();
             }
             else if (!ModelState.IsValid) //2- If the language model is not valid
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                return BadRequest(ModelState);
             }
             else //3- If the language model is valid (OK)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, languagesDAL.UpdateLanguage(id, language));  
+                return Ok(languagesDAL.UpdateLanguage(id, language));
             }
         }
-        public HttpResponseMessage Delete(int id)
+
+        public IHttpActionResult Delete(int id)
         {
             if (!languagesDAL.IsThereAnyLanguage(id)) //1- FirstOfAll, If the record for the id value does not exist in DB
             {
-                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "No records found for id param (id parametresine ait kayıt bulunamadı).");
+                return NotFound();
             }
             else 
             {
                 languagesDAL.DeleteLanguage(id);
-                return Request.CreateResponse(HttpStatusCode.NoContent);
+                return Ok();
             }
         }
     }

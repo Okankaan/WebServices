@@ -82,3 +82,16 @@ UserId   | UserKey                                 | Name    | Role
 1        | CF24D6C4-F3CA-4D70-A170-FB242AD996B7    | Okan    | A 
 2        | AED63F69-A30E-4AD4-884B-39840C58236B    | Kaan    | U
 ```
+____________________________________________________________
+
+--Telerik Fiddler -> Header part
+---
+```
+User-Agent: Fiddler
+Host: localhost:50570
+Content-Length: 73
+Content-Type: application/json; charset=utf-8
+apiKey: CF24D6C4-F3CA-4D70-A170-FB242AD996B7
+accept: application/json
+```
+____________________________________________________________

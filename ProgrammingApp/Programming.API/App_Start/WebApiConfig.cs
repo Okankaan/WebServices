@@ -1,4 +1,5 @@
 ﻿using Programming.API.Attributes;
+using Programming.API.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace Programming.API
             // Web API routes
             config.MapHttpAttributeRoutes();
             config.Filters.Add(new ApiExceptionAttributes());// For using OnException() method in ApiExceptionAttributes.cs. We use here for at the level of Application using(Alternatively, We can use this tags top of all method of all controllers one by one).
+            config.MessageHandlers.Add(new APIKeyHandler());//For Authorization control. This method send "SendAsync();" method in APIKeyHandler.cs for all methods of all controllers but if there no using [Authorize] tags top of methods, this control is not working.
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

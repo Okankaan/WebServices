@@ -12,27 +12,30 @@ namespace Programming.API.Controllers
 {
     public class LanguagesController : ApiController
     {
+        LanguagesDAL languagesDAL = new LanguagesDAL();
+
         [HttpGet] //or use method name like "GetSearchByName".
+        [Authorize]//For Authorization control.
         public IHttpActionResult SearchByName(string name) //http://localhost:50570/api/languages?name=Anders
         {
-            return Ok("name: " + name);
+            return Ok("Name: " + User.Identity.Name);
         }
 
         public IHttpActionResult GetSearchBySurname(string surname) //http://localhost:50570/api/languages?surname=Gosling
         {
-            return Ok("surname: " + surname);
+            return Ok("Surname: " + surname);
         }
 
-        LanguagesDAL languagesDAL = new LanguagesDAL();
         [ResponseType(typeof(IEnumerable<Languages>))]
-        [HttpGet] //or use method name like "GetAllLanguages".
-        public IHttpActionResult AllLanguages()
+        [Authorize]//For Authorization control.
+        public IHttpActionResult Get()
         {
             var languages = languagesDAL.GetAllLanguages();
             return Ok(languages);
         }
 
         [ResponseType(typeof(Languages))]
+        [Authorize]//For Authorization control.
         public IHttpActionResult Get(int id)
         {
             var language = languagesDAL.GetAllLanguageById(id);

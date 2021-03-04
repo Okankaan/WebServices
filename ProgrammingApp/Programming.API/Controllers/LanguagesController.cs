@@ -27,19 +27,30 @@ namespace Programming.API.Controllers
         [HttpGet] //or use method name like "GetAllLanguages".
         public IHttpActionResult AllLanguages()
         {
-            var languages= languagesDAL.GetAllLanguages();
+            var languages = languagesDAL.GetAllLanguages();
             return Ok(languages);
         }
 
         [ResponseType(typeof(Languages))]
         public IHttpActionResult Get(int id)
         {
-            var language= languagesDAL.GetAllLanguageById(id);
-            if (language==null)
+            try //if there is a error.
             {
-                return NotFound();
+                //int a = 5, b = 0;
+                //int c = a / b; // Here 5 can not divide by zero and Client See like this -> Status Code : 502 Attempted to divide by zero.
+                var language = languagesDAL.GetAllLanguageById(id);
+                if (language == null)
+                {
+                    return NotFound();
+                }
+                return Ok(language);
             }
-            return Ok(language);
+            catch (Exception e)// send Status Code and description about error to client.
+            {
+                HttpResponseMessage errorResponse = new HttpResponseMessage(HttpStatusCode.BadGateway);
+                errorResponse.ReasonPhrase = e.Message;
+                throw new HttpResponseException(errorResponse);
+            }
 
         }
 
@@ -55,13 +66,13 @@ namespace Programming.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            
+
         }
 
         [ResponseType(typeof(Languages))]
         public IHttpActionResult Put(int id, Languages language)
         {
-            
+
             if (!languagesDAL.IsThereAnyLanguage(id)) //1- FirstOfAll, If the record for the id value does not exist in DB
             {
                 return NotFound();
@@ -82,7 +93,7 @@ namespace Programming.API.Controllers
             {
                 return NotFound();
             }
-            else 
+            else
             {
                 languagesDAL.DeleteLanguage(id);
                 return StatusCode(HttpStatusCode.NoContent);

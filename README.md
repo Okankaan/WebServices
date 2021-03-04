@@ -1,10 +1,16 @@
 # WebServices
-Web services examples:
-1-ProgrammingApp Project(.Net Framework Web Api)
+***Web services examples:***
+
+***1-ProgrammingApp Project(.Net Framework Web Api)***
+-
+____________________________________________________________
+
 --A MsSQL Database with the name "ProgrammingDb" created.
+---
 ____________________________________________________________
 --"Languages" table is created with following SQLquery
 ---
+```
 USE [ProgrammingDb]
 GO
 
@@ -27,9 +33,11 @@ CREATE TABLE [dbo].[Languages](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
+```
 ____________________________________________________________
 --"Users" table is created with following SQLquery
 ---
+```
 USE [ProgrammingDb]
 GO
 
@@ -54,18 +62,23 @@ GO
 
 ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [DF_Users_UserKey]  DEFAULT (newid()) FOR [UserKey]
 GO
+```
 ____________________________________________________________
 --"Languages" table Rows added
 ---
+```
 ID   | Language   | Founder           | Year       | IsPopular
 1    | CSharp     |Anders Hejsberg    |2000-01-01  | True
 2    | Delphi     |Anders Hejsberg    |1995-01-01  | False
 3    | Java       |James Gosling      |1995-01-01  | True
 4    | C          |Dennis Ritchie     |1972-01-01  | True
 5    | C++        |Bjarne Stroustrup  |2000-01-01  | True
+```
 ____________________________________________________________
 --"Users" table Rows added
 ---
+```
 UserId   | UserKey                                 | Name    | Role       
 1        | CF24D6C4-F3CA-4D70-A170-FB242AD996B7    | Okan    | A 
 2        | AED63F69-A30E-4AD4-884B-39840C58236B    | Kaan    | U
+```

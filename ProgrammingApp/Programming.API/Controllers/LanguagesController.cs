@@ -1,4 +1,5 @@
 ﻿using Programming.API.Attributes;
+using Programming.API.Security;
 using Programming.DAL;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Web.Http.Description;
 
 namespace Programming.API.Controllers
 {
+    [APIAuthorize(Roles = "A")]//at the level of Controller(All methods of this Controller can used by Admin Role) using For my custom Authorization control from APIAuthorizaAttribute.cs -> Just "User Role = A" users(Admin Role users) in DB can see this method response  
     public class LanguagesController : ApiController
     {
         LanguagesDAL languagesDAL = new LanguagesDAL();
@@ -27,7 +29,7 @@ namespace Programming.API.Controllers
         }
 
         [ResponseType(typeof(IEnumerable<Languages>))]
-        [Authorize]//For Authorization control.
+        //[APIAuthorize(Roles = "A")]//For my custom Authorization control from APIAuthorizaAttribute.cs -> Just "User Role = A" users(Admin Role) in DB can see this method response  
         public IHttpActionResult Get()
         {
             var languages = languagesDAL.GetAllLanguages();
@@ -35,7 +37,6 @@ namespace Programming.API.Controllers
         }
 
         [ResponseType(typeof(Languages))]
-        [Authorize]//For Authorization control.
         public IHttpActionResult Get(int id)
         {
             var language = languagesDAL.GetAllLanguageById(id);
@@ -78,7 +79,7 @@ namespace Programming.API.Controllers
                 return Ok(languagesDAL.UpdateLanguage(id, language));
             }
         }
-
+        
         public IHttpActionResult Delete(int id)
         {
             if (!languagesDAL.IsThereAnyLanguage(id)) //1- FirstOfAll, If the record for the id value does not exist in DB

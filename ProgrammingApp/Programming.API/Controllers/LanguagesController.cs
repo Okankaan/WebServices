@@ -1,4 +1,5 @@
-﻿using Programming.DAL;
+﻿using Programming.API.Attributes;
+using Programming.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,24 +35,12 @@ namespace Programming.API.Controllers
         [ResponseType(typeof(Languages))]
         public IHttpActionResult Get(int id)
         {
-            try //if there is a error.
+            var language = languagesDAL.GetAllLanguageById(id);
+            if (language == null)
             {
-                //int a = 5, b = 0;
-                //int c = a / b; // Here 5 can not divide by zero and Client See like this -> Status Code : 502 Attempted to divide by zero.
-                var language = languagesDAL.GetAllLanguageById(id);
-                if (language == null)
-                {
-                    return NotFound();
-                }
-                return Ok(language);
+                return NotFound();
             }
-            catch (Exception e)// send Status Code and description about error to client.
-            {
-                HttpResponseMessage errorResponse = new HttpResponseMessage(HttpStatusCode.BadGateway);
-                errorResponse.ReasonPhrase = e.Message;
-                throw new HttpResponseException(errorResponse);
-            }
-
+            return Ok(language);
         }
 
         [ResponseType(typeof(Languages))]

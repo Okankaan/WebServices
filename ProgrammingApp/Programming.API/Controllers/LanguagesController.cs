@@ -11,9 +11,21 @@ namespace Programming.API.Controllers
 {
     public class LanguagesController : ApiController
     {
+        [HttpGet] //or use method name like "GetSearchByName".
+        public IHttpActionResult SearchByName(string name) //http://localhost:50570/api/languages?name=Anders
+        {
+            return Ok("name: " + name);
+        }
+
+        public IHttpActionResult GetSearchBySurname(string surname) //http://localhost:50570/api/languages?surname=Gosling
+        {
+            return Ok("surname: " + surname);
+        }
+
         LanguagesDAL languagesDAL = new LanguagesDAL();
         [ResponseType(typeof(IEnumerable<Languages>))]
-        public IHttpActionResult Get()
+        [HttpGet] //or use method name like "GetAllLanguages".
+        public IHttpActionResult AllLanguages()
         {
             var languages= languagesDAL.GetAllLanguages();
             return Ok(languages);

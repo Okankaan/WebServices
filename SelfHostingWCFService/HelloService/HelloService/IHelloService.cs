@@ -12,6 +12,6 @@ namespace HelloService
     public interface IHelloService
     {
         [OperationContract]
-        void DoWork();
+        string GetMessage(string name);
     }
 }
